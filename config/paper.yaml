@@ -1,0 +1,39 @@
+# Paper trading configuration — in-memory simulator, no real funds.
+# Mirrors v1.yaml structure exactly so paper results are comparable to live.
+
+capital:
+  bankroll_usd: 25
+  max_position_per_window_usd: 12
+  max_concurrent_positions_usd: 12
+  max_daily_drawdown_usd: 7
+  max_total_drawdown_pct: 0.28
+
+sizing:
+  kelly_fraction: 0.25
+  max_position_frac_of_bankroll: 0.50
+  min_order_size_usd: 1
+
+policy:
+  edge_threshold_base: 0.025
+  edge_threshold_ci_multiplier: 0.3     # 0.3×ci_width; old 1.5 caused thr≈0.495 with ci_width=0.31
+  fee_buffer: 0.012                     # buy-side taker fee buffer (1.8% × ~0.65 ask)
+  terminal_zone_seconds: 30
+
+regime_thresholds:
+  early_to_mid_seconds: 240
+  mid_to_late_seconds: 60
+  late_to_terminal_seconds: 30
+
+safety:
+  stale_chainlink_ms: 2500
+  stale_binance_ms: 1500
+  max_errors_per_minute: 5
+  drawdown_pause_hours: 1
+
+execution:
+  order_type_for_takes: "FOK"
+  order_type_for_passive: "GTC"
+  rate_limit_ops_per_sec: 30
+  reconcile_interval_sec: 30
+  cancel_all_on_window_close_seconds: 35
+  taker_fee_rate: 0.018
